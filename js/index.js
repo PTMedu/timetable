@@ -11,17 +11,14 @@ var CANVAS_PADDING = 10;
 var COOKIE_NAME = "v2018001";
 
 var D_COD = 0;
-var D_KOR = 1;
-var D_CLS = 3;
-var D_PRO = 7;
+var D_CAT = 1;
+var D_SUB = 2;
+var D_DSC = 3;
+var D_CLA = 4;
+var D_PRC = 5;
 var D_TAR = 6;
-var D_CRD = 2;
-var D_DCR = 9;
-var D_ENG = 8;
-var D_ELR = 10;
-var D_CAP = 4;
-var D_DEP = 5;
-var D_TME = 11;
+var D_CAP = 7;
+var D_TME = 8;
 
 $(window).on("load", function()
 {
@@ -98,11 +95,11 @@ function setSizes()
 function initGrid(grid)
 {
     //grid.setImagePath("dhtmlx/skins/web/imgs/dhxgrid_terrace/");
-    grid.setHeader("코드,과목명,분반,교수님,대상,학점,비고,정원,설계,개설학부");
-    grid.setInitWidths("55,150,40,60,70,40,40,40,40,100");
-    grid.setColAlign("left,left,left,left,left,left,left,left,left");
-    grid.setColTypes("txt,txt,txt,txt,txt,txt,txt,txt,txt,txt");
-    grid.setColSorting("str,str,str,str,str,str,str,str,str,str");
+    grid.setHeader("분류,과목명,분반,수강료,대상,정원,설명");
+    grid.setInitWidths("50,60,40,70,40,40,200");
+    grid.setColAlign("left,left,left,left,left,left");
+    grid.setColTypes("txt,txt,txt,txt,txt,txt,txt");
+    grid.setColSorting("str,str,str,str,str,str,str");
     grid.setEditable(false);
     dhtmlxEvent(window, "resize", function(){grid.setSizes();});
     grid.init();
@@ -150,33 +147,23 @@ function loadCatalog(grid, filter)
 
 function addRow(grid, idx, row)
 {
-    var cod = SUBJECT_DATA[idx][D_COD]; //code
-    var ttk = SUBJECT_DATA[idx][D_KOR]; //title korean
-    var cls = SUBJECT_DATA[idx][D_CLS]; //class
-    var prf = SUBJECT_DATA[idx][D_PRO]; //professor
+    var cat = SUBJECT_DATA[idx][D_CAT]; //category
+    var sub = SUBJECT_DATA[idx][D_SUB]; //subject
+    var dsc = SUBJECT_DATA[idx][D_DSC]; //description
+    var cla = SUBJECT_DATA[idx][D_CLA]; //class no.
+    var prc = SUBJECT_DATA[idx][D_PRC]; //price
     var tar = SUBJECT_DATA[idx][D_TAR]; //target
-    var crd = SUBJECT_DATA[idx][D_CRD]; //credits
-    var spe = "";
     var cap = SUBJECT_DATA[idx][D_CAP]; //capacity
-    var dsg = SUBJECT_DATA[idx][D_DCR]; //design credits
-    var dep = SUBJECT_DATA[idx][D_DEP]; //depeartment
+    //var tme = SUBJECT_DATA[idx][D_TME]; //design credits
 
 
-    if(SUBJECT_DATA[idx][D_ENG] == "Y" && SUBJECT_DATA[idx][D_ELR] == "Y")
-        spe += "영+e";
-    else if(SUBJECT_DATA[idx][D_ENG] == "Y")
-        spe += "영강";
-    else if(SUBJECT_DATA[idx][D_ELR] == "Y")
-        spe += "e러닝";
-
-
-
-    grid.addRow(row, [cod, ttk, cls, prf, tar, crd, spe, cap, dsg, dep]);
+    grid.addRow(row, [cat, sub, cla, numberWithCommas(prc), tar, cap, dsc]);
 }
 
 
 function cartItem(pk, grid)
 {
+    console.log(pk);
     var idx = pkToIdx(pk);
     if(idx == -1) {
         alert("폐강되었거나, 데이터가 잘못된 과목입니다.");
@@ -199,8 +186,8 @@ function cartItem(pk, grid)
             var kLen = kTarget[D_TME].length;
             for(var k=0; k<kLen; k++) {
                 if(jTarget[D_TME][j] == kTarget[D_TME][k]) {
-                    var str = "시간이 중복됩니다!\n"+kTarget[D_KOR]+" 과목이 "+
-                                jTarget[D_KOR]+" 과목과 충돌합니다.";
+                    var str = "시간이 중복됩니다!\n"+kTarget[D_SUB]+" 과목이 "+
+                                jTarget[D_SUB]+" 과목과 겹칩니다.";
                     alert(str);
                     return;
                 }
@@ -238,10 +225,10 @@ function redrawCanvas(ctx)
 
     for(var i in cartedList) {
         var sbj = SUBJECT_DATA[pkToIdx(cartedList[i])];
-        totalCredits += Number(sbj[D_CRD]);
+        totalCredits += Number(sbj[D_PRC]);
     }
 
-    $("#totalCredits")[0].innerHTML = "수강학점 : " + totalCredits;
+    $("#totalCredits")[0].innerHTML = "수강료 : " + numberWithCommas(totalCredits);
 }
 
 
@@ -378,7 +365,7 @@ function onClickBtnUncartAll()
 
 function onSelectDep(e)
 {
-    loadCatalog(grid1, [e.target.value, D_DEP]);
+    loadCatalog(grid1, [e.target.value, D_CAT]);
 }
 
 
@@ -386,7 +373,7 @@ function onChangeFilter()
 {
     $("#comboDep")[0].selectedIndex = 0;
     if($("#filter")[0].value.length > 0) {
-        loadCatalog(grid1, [$("#filter")[0].value, D_COD, D_PRO, D_KOR]);
+        loadCatalog(grid1, [$("#filter")[0].value, D_COD, D_CAT, D_SUB]);
     }
     else {
         loadCatalog(grid1, [""]);

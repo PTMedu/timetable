@@ -8,7 +8,7 @@ canvas {
 #gridBox {
     float: left;
     width: auto;
-    max-width: 700px;
+    max-width: 500px;
     margin-right: 6px;
 }
 
@@ -30,12 +30,13 @@ canvas {
 
 #header {
     font-family: "맑은 고딕", "Malgun Gothic", "돋움", "Dotum";
-    font-size: 1.0em;
-    padding-bottom: 5px;
+    font-size: 2.0em;
+    padding-bottom: 20px;
 }
 
 #footer {
     clear: left;
+    font-size: 0.8em;
     padding-top: 8px;
     padding-bottom: 8px;
     font-family: "맑은 고딕", "Malgun Gothic", "돋움", "Dotum";
