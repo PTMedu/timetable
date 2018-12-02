@@ -1,0 +1,98 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Editor</title>
+
+	<meta http-equiv="Expires" content="-1"/>
+	<meta http-equiv="Pragma" content="no-cache"/>
+	<meta http-equiv="Cache-Control" content="no-cache"/>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+	
+	<link rel="stylesheet" type="text/css" href="../libs/dhtmlx/skins/web/dhtmlxgrid.css"/>
+	<link rel="stylesheet" type="text/css" href="../css/main.css"/>
+
+
+
+</head>
+
+	<body>
+		<div id="intent" value=""></div>
+		<input type="file" id="file-input" />
+		<div id="header">
+			Editor
+		</div>
+
+
+		<div id="gridBox">
+			<input type="text" id="filter" size=14 placeholder="검색...">
+			<button type="button" id="btnEnter">검색</button>
+			<select id="comboDep">
+				<option value="">분류</option>
+				<option value="국어">국어</option>
+				<option value="영어">영어</option>
+				<option value="수학">수학</option>
+				<option value="과학">과학</option>
+			</select>
+			<div id="grid1"></div>
+		</div>
+		<div id="canvasBox">
+			과목코드 : 
+			<input type="text" id="formCode" size=14 placeholder="">
+			<br/>
+			과목명　 : 
+			<input type="text" id="formSubject" size=14 placeholder="">
+			<br/>
+			분반　　 : 
+			<input type="text" id="formClass" size=14 placeholder="">
+			<br/>
+			수강료　 : 
+			<input type="text" id="formPrice" size=14 placeholder="">
+			<br/>
+			대상　　 : 
+			<input type="text" id="formTarget" size=14 placeholder="">
+			<br/>
+			정원　　 : 
+			<input type="text" id="formCap" size=14 placeholder="">
+			<br/>
+			설명　　 : 
+			<input type="text" id="formDesc" size=14 placeholder="">
+			<br/>
+			<div id="timeChunk1">
+				<select id="dayOfWeek">
+					<option value="null">요일</option>
+				</select>
+				<select id="startTime">
+					<option value="null">시간</option>
+				</select>
+				~
+				<select id="endTime">
+					<option value="null">시간</option>
+				</select>
+			</div>
+			<br/>
+			<button type="button" id="btnModify">변경</button>
+		</div>
+
+		<div id="footer">
+			<br/><a href="license.html?v=2" target="_blank">
+				About open source license...
+			</a>
+		</div>
+		<div id="svimg">
+		</div>
+		<div id="svtxt">
+		</div>
+
+
+		
+		<script type="text/javascript" src="../js/envcheck.js?v=5"></script>
+		<script type="text/javascript" src="../libs/dhtmlx/codebase/dhtmlxgrid.js"></script>
+		<script type="text/javascript" src="../dbt/dbt180711.jsd?v=1"></script>
+		<script type="text/javascript" src="../js/util.js?v=3"></script>
+		<script src="../libs/jquery-3.1.1.min.js"></script>
+		<script src="editor.js"></script>
+	</body>
+</html>
+
