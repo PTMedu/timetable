@@ -1,4 +1,4 @@
-# hanpyo
+# PTM Timetable
 
-[http://hanpyo.com](hanpyo.com)
+[https://ptmedu.github.io/timetable/](https://ptmedu.github.io/timetable/)
 
