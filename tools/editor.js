@@ -97,6 +97,8 @@ $(window).on("load", function()
     $("#btnEnter").on("click", onClickBtnEnter);
     $("#btnInfo").on("click", onClickBtnInfo);
     $("#btnSave").on("click", onClickBtnSave);
+    $("#btnAdd").on("click", onClickBtnAdd);
+    $("#btnRemove").on("click", onClickBtnRemove);
     $("#btnModify").on("click", onClickBtnModify);
 
 
@@ -337,24 +339,40 @@ function onClickBtnInfo()
 
 function onClickBtnSave()
 {
+    var output = "var SUBJECT_DATA = [\r\n";
+    for(var i in SUBJECT_DATA) {
+        output += "["
+        for(var j=0; j<8; j++) {
+            output += "\"" + SUBJECT_DATA[i][j] + "\",";
+        }
+        output += "["
+        output += SUBJECT_DATA[i][8];
+        output += "]],\r\n"
+    }
+    output += "];"
+    //console.log(output);
+    saveAs("data.dat", output);
+}
 
 
-    if(isFacebookApp()) {
-        alert("페이스북 앱에서는 아직 저장기능을 지원하지 않습니다 ㅠㅠ\n링크공유 기능을 사용하거나, 오른쪽 위의 메뉴를 클릭하여 다른 브라우저로 접속해주세요");
-    }
-    else if(isKakaoApp()) {
-        alert("카카오톡 앱에서는 아직 저장기능을 지원하지 않습니다 ㅠㅠ\n링크공유 기능을 사용하거나, 오른쪽 위의 메뉴를 클릭하여 다른 브라우저로 접속해주세요");
-    }
-    else if (("download" in $("#btnSave").get(0)) && !isEdge()) {
-        this.href = dt;
+function onClickBtnAdd()
+{
+    SUBJECT_DATA.push(["00000", "분류", "과목명", "과목설명", "분반", 0, "대상", "정원", []])
+    loadCatalog(grid1, [""]);
+    selection = null;
+}
+
+
+function onClickBtnRemove()
+{
+    if(selection) {
+        SUBJECT_DATA = SUBJECT_DATA.slice(0, selection).concat(SUBJECT_DATA.slice(Number(selection)+1, 10))
+        loadCatalog(grid1, [""]);
+        selection = null;
     }
     else {
-        $("#intent").attr("value", dt);
-        var p = openPopup("down.html", 520, 720);
-        //var div = p.document.getElementById("savingImg");
-        //div.innerHTML = "<img src='"+dt+"'alt='from canvas'/>";
+        window.alert("과목을 선택해 주세요")
     }
-
 }
 
 
