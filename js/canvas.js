@@ -1,6 +1,6 @@
-var W_C = 80; //cell
-var W_AX = 80; //axis
-var H_C = 30; //cell
+var W_C = 70; //cell
+var W_AX = 40; //axis
+var H_C = 36; //cell
 var H_AX = 40; //axis
 var MGN = 2.5; //margin
 
@@ -13,8 +13,8 @@ var COLOR_SET = ["#42BAFF","#00DC6D","#F1BE5B","#FFA6E9","#FFAB6E",
                 "#FFFD66","#A4A4A4","#E191FF","#85E4FF","#FF7F32"];
 
 var TIME_NAME = ["01A","01B","02A","02B","03A","03B","04A","04B","05A","05B","06A","06B","07A","07B","08A","08B","09A","09B"];
-var CLOCK_NAME = ["09:00","09:30","10:00","10:30","11:00","11:30","12:00","12:30","13:00","13:30","14:00","14:30","15:00","15:30","16:00","16:30","17:00","17:30"];
-var WEEK_NAME = ["월요일", "화요일", "수요일", "목요일", "금요일"];
+var CLOCK_NAME = ["09:00","09:30","10:00","10:30","11:00","11:30","12:00","12:30","13:00","13:30","14:00","14:30","15:00","15:30","16:00","16:30","17:00","17:30","18:00","18:30","19:00","19:30","20:00","20:30","21:00","21:30","22:00","22:30","23:00","23:30"];
+var WEEK_NAME = ["월요일", "화요일", "수요일", "목요일", "금요일", "토요일", "일요일"];
 
 
 function drawClear(ctx, w, h)
@@ -45,28 +45,32 @@ function drawFrame(ctx)
 
 
     ctx.rect(MGN, MGN, W_AX, H_AX);
-    for(var i=0; i<18; i++) {
+    for(var i=0; i<15; i++) {
         xs = MGN;
         ys = MGN+i*H_C+H_AX;
         var divWidth = 38;
-        ctx.rect(xs, ys, divWidth, H_C);
-        ctx.rect(xs+divWidth, ys, W_AX-divWidth, H_C);
-        ctx.fillText(TIME_NAME[i],xs+8,ys+19);
-        ctx.fillText(CLOCK_NAME[i],xs+4+W_AX/2,ys+19);
+        //ctx.rect(xs, ys, divWidth, H_C);
+        //ctx.rect(xs+divWidth, ys, W_AX-divWidth, H_C);
+        ctx.rect(xs, ys, W_AX, H_C);
+        //ctx.fillText(TIME_NAME[i],xs+8,ys+19);
+        //ctx.fillText(CLOCK_NAME[i],xs+4+W_AX/2,ys+19);
+        ctx.fillText(CLOCK_NAME[i*2],xs+4,ys+19);
     }
-    ctx.rect(xs, ys+H_C, W_AX, H_C*2);
-    ctx.fillText("이후",xs+26,ys+H_C+34);
+    //ctx.rect(xs, ys+H_C, W_AX, H_C*2);
+    //ctx.fillText("이후",xs+26,ys+H_C+34);
 
     ctx.lineWidth = 1;
     for(var j=0; j<WEEK_NAME.length; j++) {
         ctx.rect(MGN+j*W_C+W_AX, MGN, W_C, H_AX);
         ctx.fillText(WEEK_NAME[j],MGN+j*W_C+W_AX+21,MGN+25);
-        for(var i=0; i<18; i++) {
+        for(var i=0; i<15; i++) {
             xs = MGN+j*W_C+W_AX;
             ys = MGN+i*H_C+H_AX;
             ctx.rect(xs, ys, W_C, H_C);
+            ctx.moveTo(xs, ys+H_C/2);
+            ctx.lineTo(xs+W_C, ys+H_C/2);
         }
-        ctx.rect(xs, ys+H_C, W_C, H_C*2);
+        //ctx.rect(xs, ys+H_C, W_C, H_C*2);
     }
 
     ctx.stroke();
@@ -90,8 +94,8 @@ function drawSelection(ctx, times, thickness)
         tgt = times[i][0];
         xs = MGN + W_AX + Math.floor(tgt/100)*W_C;
         if(tgt%100<17) {
-            ys = MGN + H_AX + (tgt%100)*H_C;
-            height = H_C*times[i][1];
+            ys = MGN + H_AX + (tgt%100)*H_C/2;
+            height = H_C*times[i][1]/2;
         }
         else {
             ys = MGN + H_AX + 18*H_C;
@@ -121,8 +125,8 @@ function drawCartList(ctx, db, list)
             var proFlag = true;
             xs = MGN + W_AX + Math.floor(tgt/100)*W_C;
             if(tgt%100<17) {
-                ys = MGN + H_AX + (tgt%100)*H_C;
-                height = H_C*times[j][1];
+                ys = MGN + H_AX + (tgt%100)*H_C/2;
+                height = H_C*times[j][1]/2;
             }
             else {
                 ys = MGN + H_AX + 18*H_C;
