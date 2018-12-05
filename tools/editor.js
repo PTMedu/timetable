@@ -354,13 +354,22 @@ function onClickBtnSave()
     saveAs("data.dat", output);
 }
 
+function getRandomId()
+{
+    var pool = "ABCDEFGHJKLMNPQRSTUVWXYZ3456789"
+    var id = ""
+    for(var i=0; i<12; i++) {
+        id += pool[Math.floor(Math.random()*pool.length)];
+    }
+    return id;
+}
 
 function onClickBtnAdd()
 {
-    SUBJECT_DATA.push(["00000", "분류", "과목명", "과목설명", "분반", 0, "대상", "정원", []])
+    SUBJECT_DATA.push([getRandomId(), "분류", "과목명", "과목설명", "01", 0, "대상", "0", []])
     loadCatalog(grid1, [""]);
     selection = null;
-}
+} 
 
 
 function onClickBtnRemove()

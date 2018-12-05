@@ -6,8 +6,8 @@ function idxToPk(idx)
 
 function pkToIdx(pk)
 {
-    var cod = pk.substring(0,6);
-    var cls = pk.substring(6,8);
+    console.log(pk);
+    var cod = pk;
     for(var i in SUBJECT_DATA) {
         if(cod == SUBJECT_DATA[i][0]) {
             return Number(i);

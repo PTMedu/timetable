@@ -93,13 +93,9 @@ function drawSelection(ctx, times, thickness)
     for(var i=0; i<times.length; i++) {
         tgt = times[i][0];
         xs = MGN + W_AX + Math.floor(tgt/100)*W_C;
-        if(tgt%100<17) {
+        if(tgt%100<30) {
             ys = MGN + H_AX + (tgt%100)*H_C/2;
             height = H_C*times[i][1]/2;
-        }
-        else {
-            ys = MGN + H_AX + 18*H_C;
-            height = H_C*2;
         }
         ctx.rect(xs, ys, W_C, height);
     }
@@ -124,14 +120,9 @@ function drawCartList(ctx, db, list)
             var tgt = times[j][0];
             var proFlag = true;
             xs = MGN + W_AX + Math.floor(tgt/100)*W_C;
-            if(tgt%100<17) {
+            if(tgt%100<30) {
                 ys = MGN + H_AX + (tgt%100)*H_C/2;
                 height = H_C*times[j][1]/2;
-            }
-            else {
-                ys = MGN + H_AX + 18*H_C;
-                height = H_C*2;
-                //proFlag = false;
             }
 
             ctx.fillStyle = COLOR_SET[i%COLOR_SET.length];
@@ -140,7 +131,7 @@ function drawCartList(ctx, db, list)
             ctx.strokeStyle="#000000";
             ctx.lineWidth=2;
             ctx.strokeRect(xs, ys, W_C, height);
-            var text = sbj[D_SUB] + "\n" + sbj[D_CLA];
+            var text = sbj[D_SUB];
             //if(proFlag) text += " " + sbj[D_PRO];
             drawTextBox(ctx, text, xs+2, ys+20, W_C-4);
         }
