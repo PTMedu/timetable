@@ -46,11 +46,10 @@ $(window).on("load", function()
     drawClear(ctx, canvas.width, canvas.height);
     drawFrame(ctx);
 
-    $("#btnShare").on("click", onClickBtnShare);
-    $("#btnLinkShare").on("click", onClickBtnLinkShare);
     $("#btnCart").on("click", onClickBtnCart);
     $("#btnUncart").on("click", onClickBtnUncart);
     $("#btnUncartAll").on("click", onClickBtnUncartAll);
+    $("#btnSubmit").on("click", onClickBtnSubmit);
     $("#btnEnter").on("click", onClickBtnEnter);
     $("#btnInfo").on("click", onClickBtnInfo);
     $("#btnSave").on("click", onClickBtnSave);
@@ -74,6 +73,14 @@ $(window).on("load", function()
         }
 
     }
+    
+    var config = {
+        apiKey: "AIzaSyChqbWWkQrssEOA-1F0UvP48qQ_34HeMBg ",
+        authDomain: "ptmenrolment.firebaseapp.com",
+        databaseURL: "https://ptmenrolment.firebaseio.com/",
+        storageBucket: "ptmenrolment.appspot.com"
+    };
+    firebase.initializeApp(config);
 
 });
 
@@ -312,25 +319,6 @@ function onDblClickCart(row, col)
 }
 
 
-function onClickBtnShare()
-{
-    var popup = window.open(
-        "https://www.facebook.com/sharer/sharer.php?u=hanpyo.com/s?d="
-        + serializeCart(cartedList),
-    "pop", "width=600, height=400, scrollbars=no");
-}
-
-
-function onClickBtnLinkShare()
-{
-    //$("#svtxt").html("http://hanpyo.com/s?d="+serializeCart(cartedList));
-    //alert("페이지 맨 하단의 주소를 복사하여 공유하세요.");
-
-    var link = "http://hanpyo.com/s?d="+serializeCart(cartedList);
-    prompt("아래 주소를 복사하세요.", link);
-}
-
-
 function onClickBtnCart()
 {
     var sel = Number(grid1.getSelectedId());
@@ -378,6 +366,27 @@ function onChangeFilter()
     else {
         loadCatalog(grid1, [""]);
     }
+}
+
+
+function onClickBtnSubmit()
+{
+    var name = window.prompt("이름을 입력하세요", "");
+
+    var result = [];
+    for(var i in cartedList) {
+        var item = "";
+        item += SUBJECT_DATA[pkToIdx(cartedList[i])][D_SUB] + " ";
+        item += SUBJECT_DATA[pkToIdx(cartedList[i])][D_CLA];
+        result.push(item);
+    }
+    
+    firebase.database().ref('enrollment').push({
+        username: name,
+        data: result
+    });
+    
+    window.alert("신청되었습니다.")
 }
 
 
